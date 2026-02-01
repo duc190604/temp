@@ -118,7 +118,7 @@ export default function VideoTestimonialsSlider() {
             </h3>
 
             {/* Swiper Slider Container */}
-            <div className="overflow-hidden -mx-4 px-4">
+            <div className="overflow-hidden">
                 <Swiper
                     modules={[FreeMode]}
                     spaceBetween={12}

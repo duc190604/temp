@@ -1,6 +1,32 @@
 @import "tailwindcss";
 
 /* ========================================
+   TAILWIND THEME CONFIGURATION
+   ======================================== */
+
+@theme {
+  /* Custom Font Families */
+  --font-arizona: 'ABC Arizona Flare', sans-serif;
+  --font-aeonik: 'Aeonik', sans-serif;
+  --font-nb: 'NB Architekt', sans-serif;
+  
+  /* Custom Colors */
+  --color-main-red: oklch(0.4522 0.184068 26.5694);
+  --color-main-dark-red: oklch(0.2723 0.109753 22.2781);
+  --color-main-light-red: oklch(0.7822 0.1268 22.11);
+  
+  /* Custom Spacing - Convert rem to pixels (1rem = 16px) */
+  --spacing-1\.25: 0.3125rem; /* 5px */
+  --spacing-2\.5: 0.625rem;   /* 10px */
+  --spacing-3\.25: 0.8125rem; /* 13px */
+  --spacing-3\.75: 0.9375rem; /* 15px */
+  --spacing-4\.25: 1.0625rem; /* 17px */
+  --spacing-7\.5: 1.875rem;   /* 30px */
+  --spacing-12: 3rem;         /* 48px */
+  --spacing-22\.5: 5.625rem;  /* 90px */
+}
+
+/* ========================================
    CUSTOM FONTS - ABC ARIZONA FLARE
    ======================================== */
 
@@ -18,6 +44,15 @@
   font-family: 'ABC Arizona Flare';
   src: url('/fonts/ABCArizona-FlareRegular.otf') format('opentype');
   font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ABC Arizona Flare - Medium (500) */
+@font-face {
+  font-family: 'ABC Arizona Flare';
+  src: url('/fonts/ABCArizonaFlare-Medium.otf') format('opentype');
+  font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
@@ -103,6 +138,11 @@
   --font-heading: 'ABC Arizona Flare', sans-serif;
   --font-body: 'Aeonik', sans-serif;
   --font-nb-architekt: 'NB Architekt', sans-serif;
+  
+  /* Color Variables */
+  --main-red: oklch(0.4522 0.184068 26.5694);
+  --main-dark-red: oklch(0.2723 0.109753 22.2781);
+  --main-light-red: oklch(0.7822 0.1268 22.11);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -122,15 +162,12 @@
   box-sizing: border-box;
 }
 
-html {
-  overflow-x: hidden;
-}
-
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-body);
   overflow-x: hidden;
+  max-width: 100vw;
   margin: 0;
   padding: 0;
 }
@@ -147,4 +184,31 @@ h4,
 h5,
 h6 {
   font-family: var(--font-heading);
+}
+
+/* ========================================
+   UTILITY CLASSES
+   ======================================== */
+
+/* IM8 Container - Max width 1600px */
+.im8-container {
+  max-width: 1600px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+@media (min-width: 640px) {
+  .im8-container {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .im8-container {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
 }

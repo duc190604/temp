@@ -57,7 +57,7 @@ export default function ClinicalStudiesSection() {
 
                 {/* Desktop Layout */}
                 <div className="hidden md:block relative z-10 [@media(min-width:990px)]:max-w-[90%] [@media(min-width:1439px)]:max-w-[83.133%] mx-auto">
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-between max-w-[1200px] mx-auto">
 
                         {/* Left Side - Statistics */}
                         <div className="w-[41.667%]">

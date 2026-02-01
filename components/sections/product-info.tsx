@@ -200,12 +200,12 @@ export default function ProductInfo({ selectedVariant, setSelectedVariant, selec
                 <label className="block text-[#50000b] text-base font-bold mb-3">
                     1. Select Format:
                 </label>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div className="grid grid-cols-2 gap-3 items-stretch">
                     {formatOptions.map((format) => (
-                        <div key={format.id} className="relative">
+                        <div key={format.id} className="relative h-full">
                             {/* MOST POPULAR Badge - only for jar */}
                             {format.id === 'jar' && (
-                                <span className="absolute -top-2 left-1/2 -translate-x-1/2 z-10 bg-[#a40011] text-white text-[10px] font-bold uppercase px-4 py-1 rounded-full whitespace-nowrap" style={{ fontFamily: 'var(--font-nb-architekt)' }}>
+                                <span className="absolute -top-2 right-4 z-10 bg-[#a40011] text-white text-[10px] font-bold uppercase px-4 py-1 rounded-full whitespace-nowrap" style={{ fontFamily: 'var(--font-nb-architekt)' }}>
                                     MOST POPULAR
                                 </span>
                             )}
@@ -221,7 +221,7 @@ export default function ProductInfo({ selectedVariant, setSelectedVariant, selec
                             />
                             <label
                                 htmlFor={`format-${format.id}`}
-                                className={`grid grid-cols-[60px_1fr] gap-0 border-2 rounded-2xl cursor-pointer transition-all overflow-hidden ${selectedVariant === format.id
+                                className={`grid grid-cols-[60px_1fr] gap-0 border-2 rounded-2xl cursor-pointer transition-all overflow-hidden h-full ${selectedVariant === format.id
                                     ? 'border-[#50000b] bg-white'
                                     : 'border-transparent bg-[#fbf4ef] hover:border-[#50000b]/30'
                                     }`}
@@ -237,10 +237,10 @@ export default function ProductInfo({ selectedVariant, setSelectedVariant, selec
 
                                 {/* Text Content Column - Has padding */}
                                 <div className="flex flex-col justify-center min-w-0 bg-[#f5eaea] py-4 px-3">
-                                    <div className="text-[15px] font-bold text-[#50000b] mb-1 leading-tight">
+                                    <div className="text-[17px] md:text-[18px] lg:text-[20px] font-bold text-[#50000b] mb-1 leading-tight">
                                         {format.name}
                                     </div>
-                                    <div className="text-[13px] text-[#666] leading-tight">
+                                    <div className="text-[12px] md:text-[13px] text-[#666] leading-tight">
                                         (354g) $2.61 USD / serving
                                     </div>
                                 </div>
@@ -284,20 +284,23 @@ export default function ProductInfo({ selectedVariant, setSelectedVariant, selec
                             <label
                                 htmlFor={`plan-${plan.id}`}
                                 className={`block p-4 border rounded-2xl cursor-pointer transition-all ${selectedPlan === plan.id
-                                    ? 'border-[#a40011] bg-white'
-                                    : 'border-[#e1cbb9] bg-white hover:border-[#a40011]/50'
+                                    ? `border-[#a40011] ${plan.id === 'subscription' ? 'bg-[#f5eaea]' : 'bg-[#A40011]/[0.02]'}`
+                                    : 'border-[#50000b]/20 bg-transparent hover:border-[#a40011]/50'
                                     }`}
                                 style={{ paddingTop: (plan.badge || plan.badgeLeft) ? '20px' : '16px' }}
                             >
                                 {/* Top Row: Radio + Name + Price */}
                                 <div className="flex items-start justify-between gap-3 mb-2">
                                     <div className="flex items-start gap-3 flex-1 min-w-0">
-                                        {/* Custom Radio Button */}
-                                        <div className={`w-5 h-5 border-2 rounded-full flex items-center justify-center shrink-0 mt-0.5 ${selectedPlan === plan.id ? 'border-[#a40011]' : 'border-[#999]'
-                                            }`}>
-                                            <div className={`w-3 h-3 rounded-full bg-[#a40011] transition-opacity ${selectedPlan === plan.id ? 'opacity-100' : 'opacity-0'
-                                                }`}></div>
-                                        </div>
+                                        {/* Radio Icon - SVG based */}
+                                        <div
+                                            className="inline-block w-6 h-6 min-w-[24px] shrink-0 mt-0.5 transition-all bg-contain bg-no-repeat bg-center"
+                                            style={{
+                                                backgroundImage: selectedPlan === plan.id
+                                                    ? 'url(https://im8health.com/cdn/shop/t/121/assets/radio_fill.svg)'
+                                                    : 'url(https://im8health.com/cdn/shop/t/121/assets/radio_blank.svg)'
+                                            }}
+                                        />
 
                                         {/* Name + Save Percent */}
                                         <div className="flex-1 min-w-0" style={{ fontFamily: 'var(--font-heading)' }}>
@@ -406,10 +409,9 @@ export default function ProductInfo({ selectedVariant, setSelectedVariant, selec
                 <p className="text-xs text-[#666]">Free shipping on all orders</p>
             </div> */}
 
-            {/* Transformation Program Block - Only for Quarterly */}
-            {selectedPlan === 'quarterly' && (
-                <TransformationProgramBlock />
-            )}
+
+            <TransformationProgramBlock />
+
 
             {/* Money Back Guarantee Block */}
             <MoneyBackGuaranteeBlock />

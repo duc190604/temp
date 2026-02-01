@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Thumbs, FreeMode } from 'swiper/modules';
 import type { Swiper as SwiperType } from 'swiper';
@@ -131,6 +132,23 @@ export default function ProductMediaGallery({ selectedVariant = 'jar', selectedP
     const [activeIndex, setActiveIndex] = useState(0);
     const [isThumbsBeginning, setIsThumbsBeginning] = useState(true);
     const [isThumbsEnd, setIsThumbsEnd] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isMounted, setIsMounted] = useState(false);
+
+    useEffect(() => {
+        setIsMounted(true);
+    }, []);
+
+    useEffect(() => {
+        if (isModalOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
+        return () => {
+            document.body.style.overflow = '';
+        };
+    }, [isModalOpen]);
 
     // Filter images based on selected variant and plan
     const filteredImages = productImages.filter(img => {
@@ -147,13 +165,94 @@ export default function ProductMediaGallery({ selectedVariant = 'jar', selectedP
         return true;
     });
 
+    const modalContent = isModalOpen ? (
+        <div
+            className="fixed inset-0 z-[9999] flex items-center justify-center p-4 md:p-8"
+            style={{
+                display: 'block',
+                opacity: 1,
+                transition: 'opacity 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+            }}
+        >
+            <div
+                className="absolute inset-0 bg-[#f2e0dd]/60 backdrop-blur-sm"
+                onClick={() => setIsModalOpen(false)}
+            />
+
+            <div
+                className="relative w-full h-full flex items-center justify-center"
+                role="dialog"
+                aria-label="Media gallery"
+                aria-modal="true"
+                tabIndex={-1}
+                style={{
+                    transform: 'scale(1) translateY(0px)',
+                    opacity: 1,
+                    transition: 'transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+                }}
+            >
+                <div
+                    className="relative max-w-5xl w-full mx-auto"
+                    role="document"
+                    aria-label="Media gallery"
+                    tabIndex={0}
+                >
+                    <div className="relative flex items-center justify-center">
+                        <div className="relative inline-block">
+                            <button
+                                type="button"
+                                onClick={() => setIsModalOpen(false)}
+                                className="absolute -top-5 -right-5 z-[999] cursor-pointer"
+                                aria-label="Close"
+                            >
+                            <svg className="icon icon-close" width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                <g clipPath="url(#clip0_2571_42707)">
+                                    <g filter="url(#filter0_b_2571_42707)">
+                                        <path d="M24 0L40.973 7.02703L48 24L40.973 40.973L24 48L7.02703 40.973L0 24L7.02703 7.02703L24 0Z" fill="white" fillOpacity="0.8"></path>
+                                        <path d="M7.40974 7.40974L24 0.541158L40.5903 7.40974L47.4588 24L40.5903 40.5903L24 47.4588L7.40974 40.5903L0.541158 24L7.40974 7.40974Z" stroke="#50000B"></path>
+                                    </g>
+                                    <path d="M30.3633 30.3639L17.6354 17.636" stroke="#50000B" strokeWidth="2" strokeLinecap="square"></path>
+                                    <path d="M30.3633 17.636L17.6354 30.3639" stroke="#50000B" strokeWidth="2" strokeLinecap="square"></path>
+                                </g>
+                                <defs>
+                                    <filter id="filter0_b_2571_42707" x="-12" y="-12" width="72" height="72" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
+                                        <feFlood floodOpacity="0" result="BackgroundImageFix"></feFlood>
+                                        <feGaussianBlur in="BackgroundImageFix" stdDeviation="6"></feGaussianBlur>
+                                        <feComposite in2="SourceAlpha" operator="in" result="effect1_backgroundBlur_2571_42707"></feComposite>
+                                        <feBlend mode="normal" in="SourceGraphic" in2="effect1_backgroundBlur_2571_42707" result="shape"></feBlend>
+                                    </filter>
+                                    <clipPath id="clip0_2571_42707">
+                                        <rect width="48" height="48" fill="white"></rect>
+                                    </clipPath>
+                                </defs>
+                            </svg>
+                            </button>
+                            <img
+                                src={filteredImages[activeIndex]?.url}
+                                alt={filteredImages[activeIndex]?.alt || 'Product image'}
+                                loading="lazy"
+                                className="block max-h-[80vh] rounded-lg w-auto object-contain"
+                                style={{
+                                    objectFit: 'contain',
+                                    objectPosition: 'center center'
+                                }}
+                            />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    ) : null;
+
     return (
-        <div className="relative min-w-0">
+        <div className="md:sticky md:top-24 md:self-start">
+
 
             {/* Reviews Summary Bar */}
 
 
-            <div className="sticky top-2 z-[2] grid grid-cols-1 md:grid-cols-[60px_1fr] xl:grid-cols-[96px_1fr] gap-4 xl:gap-6 items-start">
+            <div className="grid grid-cols-1 md:grid-cols-[60px_1fr] xl:grid-cols-[96px_1fr] gap-4 xl:gap-6 items-start">
+
                 {/* Thumbnail Slider */}
                 <div className="hidden md:flex flex-col items-center gap-4 h-full max-h-[600px] relative">
                     {/* Up Button */}
@@ -264,40 +363,15 @@ export default function ProductMediaGallery({ selectedVariant = 'jar', selectedP
                                     )}
 
                                     {/* Modal Opener */}
-                                    <div className="relative w-full h-full group">
-                                        {/* Zoom Icon */}
-                                        <span className="absolute top-5 left-5 bg-white/90 rounded-full border border-[#50000b]/10 text-[#50000b] flex items-center justify-center h-12 w-12 z-[1] opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                            <svg
-                                                aria-hidden="true"
-                                                focusable="false"
-                                                className="w-6 h-6"
-                                                width="24"
-                                                height="24"
-                                                viewBox="0 0 19 19"
-                                                fill="none"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                            >
-                                                <path
-                                                    fillRule="evenodd"
-                                                    clipRule="evenodd"
-                                                    d="M4.66724 7.93978C4.66655 7.66364 4.88984 7.43922 5.16598 7.43853L10.6996 7.42464C10.9758 7.42395 11.2002 7.64724 11.2009 7.92339C11.2016 8.19953 10.9783 8.42395 10.7021 8.42464L5.16849 8.43852C4.89235 8.43922 4.66793 8.21592 4.66724 7.93978Z"
-                                                    fill="currentColor"
-                                                />
-                                                <path
-                                                    fillRule="evenodd"
-                                                    clipRule="evenodd"
-                                                    d="M7.92576 4.66463C8.2019 4.66394 8.42632 4.88723 8.42702 5.16337L8.4409 10.697C8.44159 10.9732 8.2183 11.1976 7.94215 11.1983C7.66601 11.199 7.44159 10.9757 7.4409 10.6995L7.42702 5.16588C7.42633 4.88974 7.64962 4.66532 7.92576 4.66463Z"
-                                                    fill="currentColor"
-                                                />
-                                                <path
-                                                    fillRule="evenodd"
-                                                    clipRule="evenodd"
-                                                    d="M12.8324 3.03011C10.1255 0.323296 5.73693 0.323296 3.03011 3.03011C0.323296 5.73693 0.323296 10.1256 3.03011 12.8324C5.73693 15.5392 10.1255 15.5392 12.8324 12.8324C15.5392 10.1256 15.5392 5.73693 12.8324 3.03011ZM2.32301 2.32301C5.42035 -0.774336 10.4421 -0.774336 13.5395 2.32301C16.6101 5.39361 16.6366 10.3556 13.619 13.4588L18.2473 18.0871C18.4426 18.2824 18.4426 18.599 18.2473 18.7943C18.0521 18.9895 17.7355 18.9895 17.5402 18.7943L12.8778 14.1318C9.76383 16.6223 5.20839 16.4249 2.32301 13.5395C-0.774335 10.4421 -0.774335 5.42035 2.32301 2.32301Z"
-                                                    fill="currentColor"
-                                                />
-                                            </svg>
-                                        </span>
-
+                                    <button
+                                        type="button"
+                                        aria-haspopup="dialog"
+                                        aria-label={`Open media ${index + 1} in modal`}
+                                        onClick={() => {
+                                            setIsModalOpen(true);
+                                        }}
+                                        className="relative w-full h-full cursor-pointer"
+                                    >
                                         {/* Product Image */}
                                         <div className="w-full h-full flex items-center justify-center bg-transparent">
                                             <img
@@ -308,25 +382,27 @@ export default function ProductMediaGallery({ selectedVariant = 'jar', selectedP
                                                 sizes="(min-width: 1500px) 770px, (min-width: 990px) calc(55.0vw - 10rem), (min-width: 750px) calc((100vw - 11.5rem) / 2), calc(100vw - 4rem)"
                                             />
                                         </div>
-
-                                        {/* Toggle Button */}
-                                        <button
-                                            className="absolute inset-0 w-full h-full opacity-0"
-                                            type="button"
-                                            aria-haspopup="dialog"
-                                        >
-                                            <span className="sr-only">
-                                                Open media {index + 1} in modal
-                                            </span>
-                                        </button>
-                                    </div>
+                                    </button>
                                 </div>
                             </SwiperSlide>
                         ))}
                     </Swiper>
 
+                    {/* Mobile dots */}
+                    <div className="mt-4 flex items-center justify-center gap-2 md:hidden">
+                        {filteredImages.map((_, index) => (
+                            <span
+                                key={`dot-${index}`}
+                                className={`h-2 w-2 rounded-full transition-colors ${index === activeIndex ? 'bg-[#50000b]' : 'bg-[#50000b]/30'}`}
+                                aria-hidden="true"
+                            />
+                        ))}
+                    </div>
+
                 </div>
             </div>
+
+            {isMounted && modalContent ? createPortal(modalContent, document.body) : null}
         </div>
     );
 }
