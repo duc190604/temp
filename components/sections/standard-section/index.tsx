@@ -1,3 +1,5 @@
+'use client'
+import { useState } from "react";
 import {
     dailyProduct,
     dailyStandards,
@@ -5,8 +7,18 @@ import {
     leadingStandards,
 } from "./mock-data";
 import { RedCheck, GreyX, GreenX, GreenCheck } from "./icons";
+import { SupplementFactsModal } from "./supplement-facts-modal";
 
 const StandardSection = () => {
+    const [isMore, setIsMore] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const redData = isMore
+        ? [...dailyStandards]
+        : [...dailyStandards.slice(0, 10)];
+    const greenData = isMore
+        ? [...leadingStandards]
+        : [...leadingStandards.slice(0, 10)];
+
     return (
         <div className="bg-[#eae0d2]">
             <div id="standard" className="im8-container md:py-26 pt-14 pb-9.5">
@@ -28,8 +40,12 @@ const StandardSection = () => {
                                     />
                                 </div>
                             </div>
-                            {dailyStandards.map((item, index) => (
-                                <div key={index} className="flex items-center md:gap-5 gap-2 md:pl-12 md:py-1.25 md:pr-2.5 p-3.75 md:h-14 h-21.25 bg-[#f5eaea] border-[#50000b] not-last:border-b border-r last:rounded-bl-xl text-[#50000b]">
+                            {redData.map((item, index) => (
+                                <div
+                                    key={index}
+                                    className={`flex items-center md:gap-5 gap-2 md:pl-12 md:py-1.25 md:pr-2.5 p-3.75 md:h-14 h-21.25 bg-[#f5eaea] border-[#50000b] border-b last:border-b-0 border-r ${isMore ? "last:rounded-bl-xl" : ""
+                                        } text-[#50000b]`}
+                                >
                                     <div>
                                         {item.isTrue ? (
                                             <RedCheck className="max-md:size-4" />
@@ -61,8 +77,12 @@ const StandardSection = () => {
                                     />
                                 </div>
                             </div>
-                            {leadingStandards.map((item, index) => (
-                                <div key={index} className="flex items-center md:gap-5 gap-2 md:pl-12 md:py-1.25 md:pr-2.5 p-3.75 md:h-14 h-21.25 text-[#2d3b32] bg-[#b6c0b1] border-[#50000b] not-last:border-b border-l last:rounded-br-xl">
+                            {greenData.map((item, index) => (
+                                <div
+                                    key={index}
+                                    className={`flex items-center md:gap-5 gap-2 md:pl-12 md:py-1.25 md:pr-2.5 p-3.75 md:h-14 h-21.25 text-[#2d3b32] bg-[#b6c0b1] border-[#50000b] border-b last:border-b-0 border-l ${isMore ? "last:rounded-br-xl" : ""
+                                        }`}
+                                >
                                     <div>
                                         {item.isTrue ? (
                                             <GreenCheck className="max-md:size-4" />
@@ -81,14 +101,29 @@ const StandardSection = () => {
                                 </div>
                             ))}
                         </div>
+                        {!isMore && (
+                            <div
+                                className="col-span-2 md:pl-12 md:py-1.25 md:pr-2.5 p-3.75 md:h-14 h-21.25 border-t border-[#50000b] rounded-b-xl bg-[#f5eaea] flex items-center justify-center cursor-pointer text-[#50000b]"
+                                onClick={() => setIsMore(true)}
+                            >
+                                See more
+                            </div>
+                        )}
                     </div>
                 </div>
                 <div className="flex justify-center mt-8">
-                    <button className="uppercase bg-[#a40011] hover:bg-[#50000b] text-white rounded-full transition duration-300 font-bold pt-5.5 pb-5 px-8 text-base min-w-68 py-4">
+                    <button
+                        onClick={() => setIsModalOpen(true)}
+                        className="uppercase bg-[#a40011] hover:bg-[#50000b] text-white rounded-full transition duration-300 font-bold py-[13px] px-[17px] text-base min-w-68"
+                    >
                         View Supplement Facts
                     </button>
                 </div>
             </div>
+            <SupplementFactsModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+            />
         </div>
     );
 };

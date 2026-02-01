@@ -12,6 +12,7 @@ import ContentSection from "@/components/sections/content-section";
 import { TrustedExpertsSection } from "@/components/sections/trusted-experts-section";
 import { FivePillarsSection } from "@/components/sections/five-pillars";
 import MonthlyBreakdown from "@/components/sections/monthly-breakdown";
+import OrganSystems from "@/components/sections/organ-systems";
 import StandardSection from "@/components/sections/standard-section";
 
 export default function Home() {
@@ -20,6 +21,7 @@ export default function Home() {
       <ProductSection />
       <ClinicalStudiesSection />
       <StaticReviewsSection />
+      <OrganSystems />
       <MonthlyBreakdown />
       <StandardSection />
       <FivePillarsSection />
