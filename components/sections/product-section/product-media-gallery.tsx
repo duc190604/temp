@@ -201,31 +201,32 @@ export default function ProductMediaGallery({ selectedVariant = 'jar', selectedP
                         <div className="relative inline-block">
                             <button
                                 type="button"
+                                suppressHydrationWarning
                                 onClick={() => setIsModalOpen(false)}
                                 className="absolute -top-5 -right-5 z-[999] cursor-pointer"
                                 aria-label="Close"
                             >
-                            <svg className="icon icon-close" width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                                <g clipPath="url(#clip0_2571_42707)">
-                                    <g filter="url(#filter0_b_2571_42707)">
-                                        <path d="M24 0L40.973 7.02703L48 24L40.973 40.973L24 48L7.02703 40.973L0 24L7.02703 7.02703L24 0Z" fill="white" fillOpacity="0.8"></path>
-                                        <path d="M7.40974 7.40974L24 0.541158L40.5903 7.40974L47.4588 24L40.5903 40.5903L24 47.4588L7.40974 40.5903L0.541158 24L7.40974 7.40974Z" stroke="#50000B"></path>
+                                <svg className="icon icon-close" width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                    <g clipPath="url(#clip0_2571_42707)">
+                                        <g filter="url(#filter0_b_2571_42707)">
+                                            <path d="M24 0L40.973 7.02703L48 24L40.973 40.973L24 48L7.02703 40.973L0 24L7.02703 7.02703L24 0Z" fill="white" fillOpacity="0.8"></path>
+                                            <path d="M7.40974 7.40974L24 0.541158L40.5903 7.40974L47.4588 24L40.5903 40.5903L24 47.4588L7.40974 40.5903L0.541158 24L7.40974 7.40974Z" stroke="#50000B"></path>
+                                        </g>
+                                        <path d="M30.3633 30.3639L17.6354 17.636" stroke="#50000B" strokeWidth="2" strokeLinecap="square"></path>
+                                        <path d="M30.3633 17.636L17.6354 30.3639" stroke="#50000B" strokeWidth="2" strokeLinecap="square"></path>
                                     </g>
-                                    <path d="M30.3633 30.3639L17.6354 17.636" stroke="#50000B" strokeWidth="2" strokeLinecap="square"></path>
-                                    <path d="M30.3633 17.636L17.6354 30.3639" stroke="#50000B" strokeWidth="2" strokeLinecap="square"></path>
-                                </g>
-                                <defs>
-                                    <filter id="filter0_b_2571_42707" x="-12" y="-12" width="72" height="72" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
-                                        <feFlood floodOpacity="0" result="BackgroundImageFix"></feFlood>
-                                        <feGaussianBlur in="BackgroundImageFix" stdDeviation="6"></feGaussianBlur>
-                                        <feComposite in2="SourceAlpha" operator="in" result="effect1_backgroundBlur_2571_42707"></feComposite>
-                                        <feBlend mode="normal" in="SourceGraphic" in2="effect1_backgroundBlur_2571_42707" result="shape"></feBlend>
-                                    </filter>
-                                    <clipPath id="clip0_2571_42707">
-                                        <rect width="48" height="48" fill="white"></rect>
-                                    </clipPath>
-                                </defs>
-                            </svg>
+                                    <defs>
+                                        <filter id="filter0_b_2571_42707" x="-12" y="-12" width="72" height="72" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
+                                            <feFlood floodOpacity="0" result="BackgroundImageFix"></feFlood>
+                                            <feGaussianBlur in="BackgroundImageFix" stdDeviation="6"></feGaussianBlur>
+                                            <feComposite in2="SourceAlpha" operator="in" result="effect1_backgroundBlur_2571_42707"></feComposite>
+                                            <feBlend mode="normal" in="SourceGraphic" in2="effect1_backgroundBlur_2571_42707" result="shape"></feBlend>
+                                        </filter>
+                                        <clipPath id="clip0_2571_42707">
+                                            <rect width="48" height="48" fill="white"></rect>
+                                        </clipPath>
+                                    </defs>
+                                </svg>
                             </button>
                             <img
                                 src={filteredImages[activeIndex]?.url}
@@ -258,6 +259,7 @@ export default function ProductMediaGallery({ selectedVariant = 'jar', selectedP
                     {/* Up Button */}
                     <button
                         type="button"
+                        suppressHydrationWarning
                         onClick={() => thumbsSwiper?.slidePrev()}
                         className={`absolute -top-10 left-1/2 -translate-x-1/2 z-10 w-8 h-8 flex items-center justify-center bg-white rounded-full border border-[#50000b]/10 text-[#50000b] transition-all duration-300 hover:border-[#50000b] ${isThumbsBeginning ? 'opacity-0 pointer-events-none translate-y-2' : 'opacity-100 translate-y-0'
                             }`}
@@ -294,6 +296,7 @@ export default function ProductMediaGallery({ selectedVariant = 'jar', selectedP
                         {filteredImages.map((image, index) => (
                             <SwiperSlide key={image.id} className="h-auto!">
                                 <button
+                                    suppressHydrationWarning
                                     className={`block w-full rounded-2xl overflow-hidden border cursor-pointer transition-all bg-[#fbf4ef] p-0 ${index === activeIndex
                                         ? 'border-[#50000b]'
                                         : 'border-transparent hover:border-[#50000b]/30'
@@ -322,6 +325,7 @@ export default function ProductMediaGallery({ selectedVariant = 'jar', selectedP
                     {/* Down Button */}
                     <button
                         type="button"
+                        suppressHydrationWarning
                         onClick={() => thumbsSwiper?.slideNext()}
                         className={`absolute -bottom-10 left-1/2 -translate-x-1/2 z-10 w-8 h-8 flex items-center justify-center bg-white rounded-full border border-[#50000b]/10 text-[#50000b] transition-all duration-300 hover:border-[#50000b] ${isThumbsEnd ? 'opacity-0 pointer-events-none -translate-y-2' : 'opacity-100 translate-y-0'
                             }`}
@@ -365,6 +369,7 @@ export default function ProductMediaGallery({ selectedVariant = 'jar', selectedP
                                     {/* Modal Opener */}
                                     <button
                                         type="button"
+                                        suppressHydrationWarning
                                         aria-haspopup="dialog"
                                         aria-label={`Open media ${index + 1} in modal`}
                                         onClick={() => {

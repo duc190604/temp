@@ -1,3 +1,6 @@
+'use client';
+
+import { useState } from 'react';
 import ClinicalStudiesSection from "@/components/sections/clinical-studies-section";
 import StaticReviewsSection from "@/components/sections/static-reviews-section";
 import ProductSection from "@/components/sections/product-section";
@@ -14,11 +17,31 @@ import { FivePillarsSection } from "@/components/sections/five-pillars";
 import MonthlyBreakdown from "@/components/sections/monthly-breakdown";
 import OrganSystems from "@/components/sections/organ-systems";
 import StandardSection from "@/components/sections/standard-section";
+import { StickyProductBar } from "@/components/StickyProductBar";
+import GorgiasChat from "@/components/gorgias-chat";
 
 export default function Home() {
+  const [selectedPlan, setSelectedPlan] = useState<'quarterly' | 'subscription'>('quarterly');
+  const [selectedFormat, setSelectedFormat] = useState<'jar' | 'sachet'>('jar');
+
+  const handlePlanChange = (planId: string) => {
+    if (planId === 'quarterly' || planId === 'subscription') {
+      setSelectedPlan(planId);
+    }
+  };
+
+  const handleFormatChange = (format: 'jar' | 'sachet') => {
+    setSelectedFormat(format);
+  }
+
   return (
     <div className="min-h-screen">
-      <ProductSection />
+      <ProductSection
+        selectedPlan={selectedPlan}
+        onPlanChange={setSelectedPlan}
+        selectedVariant={selectedFormat}
+        onVariantChange={handleFormatChange}
+      />
       <ClinicalStudiesSection />
       <StaticReviewsSection />
       <OrganSystems />
@@ -26,7 +49,7 @@ export default function Home() {
       <StandardSection />
       <FivePillarsSection />
       <TrustedExpertsSection />
-      <ContentSection />
+      <ContentSection selectedFormat={selectedFormat} />
       <PreparationSection />
       <GetStartedSection />
       <AmbassadorsSection />
@@ -34,6 +57,14 @@ export default function Home() {
       <BeckhamStackSection />
       <PremiumSection />
       <FAQSection />
+
+      <StickyProductBar
+        selectedPlanId={selectedPlan}
+        onPlanChange={handlePlanChange}
+        selectedVariant={selectedFormat}
+        onVariantChange={handleFormatChange}
+      />
+      <GorgiasChat />
     </div>
   );
 }

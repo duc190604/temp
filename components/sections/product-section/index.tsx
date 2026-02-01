@@ -4,13 +4,43 @@ import { useState } from 'react';
 import ProductMediaGallery from './product-media-gallery';
 import ProductInfo from './product-info';
 
-export default function ProductSection() {
-    const [selectedFormat, setSelectedFormat] = useState<'jar' | 'sachet'>('jar');
-    const [selectedPlan, setSelectedPlan] = useState<'quarterly' | 'subscription'>('quarterly');
+interface ProductSectionProps {
+    selectedPlan?: 'quarterly' | 'subscription';
+    onPlanChange?: (plan: 'quarterly' | 'subscription') => void;
+    selectedVariant?: 'jar' | 'sachet';
+    onVariantChange?: (variant: 'jar' | 'sachet') => void;
+}
+
+export default function ProductSection({
+    selectedPlan: externalSelectedPlan,
+    onPlanChange,
+    selectedVariant: externalSelectedVariant,
+    onVariantChange
+}: ProductSectionProps) {
+    const [internalSelectedFormat, setInternalSelectedFormat] = useState<'jar' | 'sachet'>('jar');
+    const [internalSelectedPlan, setInternalSelectedPlan] = useState<'quarterly' | 'subscription'>('quarterly');
+
+    // Use external state if provided, otherwise internal
+    const selectedPlan = externalSelectedPlan || internalSelectedPlan;
+    const setSelectedPlan = (plan: 'quarterly' | 'subscription') => {
+        setInternalSelectedPlan(plan);
+        if (onPlanChange) {
+            onPlanChange(plan);
+        }
+    };
+
+    const selectedFormat = externalSelectedVariant || internalSelectedFormat;
+    const setSelectedFormat = (format: 'jar' | 'sachet') => {
+        setInternalSelectedFormat(format);
+        if (onVariantChange) {
+            onVariantChange(format);
+        }
+    }
+
 
     return (
         <section
-            className="w-full bg-white bg-no-repeat bg-top bg-[length:100%_auto] py-8 pb-20 md:py-8 md:pb-20"
+            className="w-full bg-white bg-no-repeat bg-top bg-size-[100%_auto] py-8 pb-20 md:py-8 md:pb-20"
             style={{
                 backgroundImage: 'url(https://im8health.com/cdn/shop/files/Frame_1000004811-min.jpg?v=1727698766)'
             }}

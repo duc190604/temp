@@ -23,7 +23,7 @@ const StandardSection = () => {
         <div className="bg-[#eae0d2]">
             <div id="standard" className="im8-container md:py-26 pt-14 pb-9.5">
                 <div className="flex flex-col mx-auto">
-                    <h1 className="md:text-[52px] text-[40px] text-center text-[#50000b]" style={{ fontFamily: 'var(--font-heading)' }}>
+                    <h1 className="md:text-[52px] text-[40px] font-light text-center text-[#50000b]" style={{ fontFamily: 'var(--font-heading)' }}>
                         IM8: The New Gold Standard
                     </h1>
                     <div className="w-full rounded-xl grid grid-cols-2 md:mt-14 mt-20 border border-[#50000b]">
@@ -114,7 +114,7 @@ const StandardSection = () => {
                 <div className="flex justify-center mt-8">
                     <button
                         onClick={() => setIsModalOpen(true)}
-                        className="uppercase bg-[#a40011] hover:bg-[#50000b] text-white rounded-full transition duration-300 font-bold py-[13px] px-[17px] text-base min-w-68"
+                        className="uppercase cursor-pointer bg-[#a40011] hover:bg-[#50000b] text-white rounded-full transition duration-300 font-bold py-[13px] px-[17px] text-base min-w-68"
                     >
                         View Supplement Facts
                     </button>

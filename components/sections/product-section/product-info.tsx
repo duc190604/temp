@@ -24,7 +24,7 @@ const formatOptions = [
 ];
 
 
-const planOptions = [
+const jarPlanOptions = [
     {
         id: 'quarterly',
         name: '90-Day Supply',
@@ -64,6 +64,46 @@ const planOptions = [
     },
 ];
 
+const sachetPlanOptions = [
+    {
+        id: 'quarterly',
+        name: '90-Day Supply',
+        badge: 'BEST VALUE',
+        badgeLeft: 'NEW YEAR OFFER',
+        savePercent: 'Save 22%',
+        price: '$87',
+        comparePrice: '$112',
+        suffix: '/mo',
+        billingText: 'Billed $262.00 USD every 12 weeks',
+        perServing: '$2.91 USD / serving',
+        benefits: [
+            '🎓 Exclusive Access to 90 Day IM8 Transformation Program (see below)',
+            '💰 Maximum savings - lowest price per serving',
+            '👦 Share with family and friends',
+            '🎁 Free Daily Ultimate Mixer (US$18)',
+            '🚚 Free Shipping to US, UK, CA, and most of EU and APAC',
+            '⏸️ Cancel or pause anytime',
+            '🎁 Free Welcome Kit: Signature Red Cup + 5 Travel Sachets (US$18)'
+        ]
+    },
+    {
+        id: 'subscription',
+        name: '30-Day Supply',
+        savePercent: 'Save 12%',
+        price: '$99',
+        comparePrice: '$112',
+        suffix: '/mo',
+        billingText: 'Billed $99.00 USD every 4 weeks',
+        perServing: '$3.30 USD / serving',
+        benefits: [
+            '30-day money back guarantee',
+            'Cancel or pause anytime',
+            'Free Shipping to US, UK, CA, and most of EU and APAC',
+            'Free Welcome Kit: Signature Red Cup + 5 Travel Sachets (US$18)'
+        ]
+    },
+];
+
 interface ProductInfoProps {
     selectedVariant: 'jar' | 'sachet';
     setSelectedVariant: (variant: 'jar' | 'sachet') => void;
@@ -73,6 +113,13 @@ interface ProductInfoProps {
 
 export default function ProductInfo({ selectedVariant, setSelectedVariant, selectedPlan, setSelectedPlan }: ProductInfoProps) {
     const [isCPRExpanded, setIsCPRExpanded] = useState(false);
+
+    const isSachet = selectedVariant === 'sachet';
+    const planOptions = isSachet ? sachetPlanOptions : jarPlanOptions;
+
+    // Button prices
+    const quarterlyButtonPrice = isSachet ? '$87.33' : '$78.33';
+    const subscriptionButtonPrice = isSachet ? '$99' : '$89';
 
     return (
         <div className="product__info-container product__column-sticky min-w-0">
@@ -164,6 +211,7 @@ export default function ProductInfo({ selectedVariant, setSelectedVariant, selec
                     <div className="flex-1 w-full">
                         <button
                             type="button"
+                            suppressHydrationWarning
                             className="bg-none border-none p-0 cursor-pointer text-sm font-semibold text-[#50000b] underline underline-offset-4 flex items-center gap-1.5 transition-opacity hover:opacity-70"
                             style={{ fontFamily: 'var(--font-heading)' }}
                             onClick={() => setIsCPRExpanded(!isCPRExpanded)}
@@ -241,7 +289,7 @@ export default function ProductInfo({ selectedVariant, setSelectedVariant, selec
                                         {format.name}
                                     </div>
                                     <div className="text-[12px] md:text-[13px] text-[#666] leading-tight">
-                                        (354g) $2.61 USD / serving
+                                        {format.id === 'jar' ? '(354g) $2.61 USD / serving' : '(354g) $2.91 USD / serving'}
                                     </div>
                                 </div>
                             </label>
@@ -364,12 +412,12 @@ export default function ProductInfo({ selectedVariant, setSelectedVariant, selec
 
             {/* Add to Cart Button */}
             {selectedPlan === 'quarterly' ? (
-                <button className="w-full bg-[#a40011] text-white border-none rounded-full px-6 py-4 text-base font-bold uppercase cursor-pointer transition-all hover:bg-[#50000b]  shadow-lg hover:shadow-xl translate-y-0 hover:-translate-y-0.5">
-                    START MY 90-DAY TRANSFORMATION PROGRAM-$78.33 USD/mo
+                <button suppressHydrationWarning className="w-full bg-[#a40011] text-white border-none rounded-full px-6 py-4 text-base font-bold uppercase cursor-pointer transition-all hover:bg-[#50000b]  shadow-lg hover:shadow-xl translate-y-0 hover:-translate-y-0.5">
+                    START MY 90-DAY TRANSFORMATION PROGRAM-{quarterlyButtonPrice} USD/mo
                 </button>
             ) : (
-                <button className="w-full bg-[#a40011] text-white border-none rounded-full px-6 py-4 text-base font-bold uppercase cursor-pointer transition-all hover:bg-[#50000b]  shadow-lg hover:shadow-xl translate-y-0 hover:-translate-y-0.5">
-                    Add to cart-$89 USD/mo
+                <button suppressHydrationWarning className="w-full bg-[#a40011] text-white border-none rounded-full px-6 py-4 text-base font-bold uppercase cursor-pointer transition-all hover:bg-[#50000b]  shadow-lg hover:shadow-xl translate-y-0 hover:-translate-y-0.5">
+                    Add to cart-{subscriptionButtonPrice} USD/mo
                 </button>
             )}
 
@@ -415,6 +463,7 @@ export default function ProductInfo({ selectedVariant, setSelectedVariant, selec
 
             {/* Money Back Guarantee Block */}
             <MoneyBackGuaranteeBlock />
+
 
             {/* HSA/FSA Info */}
             <HSAInfo />

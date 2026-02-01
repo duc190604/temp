@@ -117,6 +117,7 @@ export const TrustedExpertsSection = () => {
             spaceBetween={16}
             slidesPerView={'auto'}
             freeMode={true}
+            touchStartPreventDefault={true}
             className="!pb-4 !w-full"
           >
             {experts.map((expert) => (

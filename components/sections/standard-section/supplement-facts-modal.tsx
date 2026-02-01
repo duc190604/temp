@@ -23,7 +23,7 @@ export const SupplementFactsModal: React.FC<SupplementFactsModalProps> = ({
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 z-[9999] flex items-center justify-center ">
+        <div className="fixed inset-0 z-[99999] flex items-center justify-center ">
             {/* Overlay */}
             <div
                 className="absolute inset-0 bg-[#a11c20]"
@@ -31,7 +31,7 @@ export const SupplementFactsModal: React.FC<SupplementFactsModalProps> = ({
             ></div>
 
             {/* Popup Container */}
-            <div className="relative w-full h-full flex flex-col items-center justify-center pt-4 md:p-10 md:pt-4">
+            <div className="relative w-full h-full flex flex-col items-center justify-center pt-4 md:p-10 md:pt-4 xl:px-[168px] xl:py-[37px]">
                 <div className="relative rounded-xl w-full max-h-full flex flex-col">
                     {/* Close Button */}
                     <button
